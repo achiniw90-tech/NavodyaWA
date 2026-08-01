@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Name — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --bg:#050806;
+    --surface:#0B120E;
+    --surface2:#0F1B14;
+    --line:#163024;
+    --accent:#00F5A0;
+    --accent-dim:#04C784;
+    --text:#EAFBF2;
+    --muted:#7FA292;
+    --display:'Poppins', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--display);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:var(--accent);color:#000;}
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 32px;}
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(circle at 85% 10%, rgba(0,245,160,0.08), transparent 40%),
+      radial-gradient(circle at 10% 80%, rgba(0,245,160,0.05), transparent 35%);
+  }
+  header{
+    position:sticky; top:0; z-index:30;
+    background:rgba(5,8,6,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; max-width:1100px; margin:0 auto;
+  }
+  .logo{font-size:19px; font-weight:700;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:none; gap:30px; font-size:13px; color:var(--muted); font-weight:500;}
+  @media (min-width:760px){.nav-links{display:flex;}}
+  .nav-links a{position:relative; transition:color .2s ease; padding-bottom:4px;}
+  .nav-links a:hover, .nav-links a.active{color:var(--accent);}
+  .nav-links a.active::after{
+    content:""; position:absolute; left:0; bottom:0; width:100%; height:2px; background:var(--accent);
+  }
+  .burger{display:flex; flex-direction:column; gap:4px; cursor:pointer;}
+  @media (min-width:760px){.burger{display:none;}}
+  .burger span{width:22px; height:2px; background:var(--text);}
+  .hero{
+    min-height:88vh;
+    display:grid;
+    grid-template-columns:1fr;
+    align-items:center;
+    gap:48px;
+    padding:60px 0;
+    position:relative; z-index:1;
+  }
+  @media (min-width:860px){
+    .hero{grid-template-columns:1.15fr 0.85fr;}
+  }
+  .hero-eyebrow{font-size:14px; color:var(--muted); margin-bottom:6px;}
+  h1.hero-title{
+    font-size:clamp(32px, 5.2vw, 52px);
+    font-weight:700;
+    line-height:1.15;
+  }
+  h1.hero-title span{color:var(--accent);}
+  .hero-role{
+    font-size:clamp(18px, 2.6vw, 24px);
+    font-weight:600;
+    margin-top:6px;
+    color:var(--accent);
+  }
+  .hero-role .cursor{
+    display:inline-block; width:2px; height:1em; background:var(--accent);
+    margin-left:4px; vertical-align:middle;
+    animation:blink 1s step-end infinite;
+  }
+  @keyframes blink{ 50%{opacity:0;} }
+  .hero-desc{
+    margin-top:20px; font-size:14.5px; color:var(--muted); max-width:480px; line-height:1.8;
+  }
+  .hero-social{display:flex; gap:12px; margin-top:26px;}
+  .social-btn{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--accent-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-size:14px; color:var(--accent);
+    transition:all .25s ease;
+  }
+  .social-btn:hover{background:var(--accent); color:#000; box-shadow:0 0 18px rgba(0,245,160,0.5);}
+  .hero-cta{margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    padding:13px 28px; border-radius:8px; font-size:13.5px; font-weight:600;
+    cursor:pointer; transition:all .25s ease; border:1px solid transparent;
+  }
+  .btn-primary{background:var(--accent); color:#04140D;}
+  .btn-primary:hover{box-shadow:0 0 26px rgba(0,245,160,0.45); transform:translateY(-2px);}
+  .btn-ghost{border-color:var(--accent-dim); color:var(--accent);}
+  .btn-ghost:hover{background:rgba(0,245,160,0.08);}
+  .hero-photo-wrap{
+    display:flex; justify-content:center; align-items:center; position:relative;
+  }
+  .hero-photo{
+    width:min(420px, 80vw); aspect-ratio:1/1; border-radius:50%;
+    background:var(--surface2);
+    border:2px solid var(--accent);
+    box-shadow:0 0 60px rgba(0,245,160,0.35), inset 0 0 40px rgba(0,245,160,0.08);
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; color:var(--muted); text-align:center; padding:20px;
+    font-family:var(--mono);
+  }
+
+.hero-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+
+  section{padding:100px 0; position:relative; z-index:1;}
+  .section-title{
+    font-size:clamp(28px, 4vw, 42px);
+    font-weight:800;
+    text-align:center;
+    margin-bottom:64px;
+  }
+  .section-title span{color:var(--accent);}
+  .timeline{position:relative; max-width:760px; margin:0 auto;}
+  .timeline::before{
+    content:"";
+    position:absolute; left:50%; top:0; bottom:0; width:2px;
+    background:linear-gradient(var(--accent), var(--line));
+    transform:translateX(-50%);
+  }
+  @media (max-width:700px){
+    .timeline::before{left:14px;}
+  }
+  .tl-item{
+    position:relative;
+    width:48%;
+    margin-bottom:48px;
+    padding:22px 24px;
+    background:var(--surface);
+    border:1px solid var(--accent-dim);
+    border-radius:12px;
+    box-shadow:0 0 24px rgba(0,245,160,0.08);
+  }
+  .tl-item:nth-child(odd){margin-left:0;}
+  .tl-item:nth-child(even){margin-left:52%;}
+  @media (max-width:700px){
+    .tl-item, .tl-item:nth-child(even){width:calc(100% - 46px); margin-left:46px;}
+  }
+  .tl-dot{
+    position:absolute; top:24px; width:12px; height:12px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 10px var(--accent);
+  }
+  .tl-item:nth-child(odd) .tl-dot{right:-30px;}
+  .tl-item:nth-child(even) .tl-dot{left:-30px;}
+  @media (max-width:700px){
+    .tl-item .tl-dot{left:-32px !important; right:auto !important;}
+  }
+  .tl-date{font-family:var(--mono); font-size:12px; color:var(--accent); margin-bottom:8px;}
+  .tl-title{font-size:17px; font-weight:700; margin-bottom:6px;}
+  .tl-desc{font-size:13px; color:var(--muted); line-height:1.7;}
+  .services-grid{
+    display:grid; grid-template-columns:1fr; gap:24px;
+  }
+  @media (min-width:700px){.services-grid{grid-template-columns:repeat(4, 1fr);}}
+  .service-card{
+    padding:36px 30px; border-radius:16px; border:1px solid var(--line);
+    background:var(--surface); transition:all .3s ease;
+  }
+  .service-card:hover{
+    border-color:var(--accent); transform:translateY(-6px);
+    box-shadow:0 20px 40px rgba(0,245,160,0.1);
+  }
+  .service-icon{
+    width:48px; height:48px; border-radius:10px; background:rgba(0,245,160,0.12);
+    display:flex; align-items:center; justify-content:center; color:var(--accent);
+    font-size:20px; margin-bottom:20px;
+  }
+  .service-title{font-size:19px; font-weight:700; margin-bottom:12px;}
+  .service-desc{font-size:13.5px; color:var(--muted); line-height:1.8;}
+  .projects-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;
+  }
+
+.skill-card img{
+    width:50px;
+    height:50px;
+    object-fit:contain;
+    margin-bottom:10px;
+}
+
+  @media (min-width:700px){.projects-grid{grid-template-columns:repeat(4, 1fr);}}
+  .project-card{
+    border-radius:12px; overflow:hidden; border:1px solid var(--line);
+    background:var(--surface); cursor:pointer; transition:all .3s ease;
+  }
+  .project-card:hover{border-color:var(--accent); box-shadow:0 0 26px rgba(0,245,160,0.25); transform:translateY(-4px);}
+  .project-thumb{
+    aspect-ratio:10/10; background:linear-gradient(135deg, #0F1B14, #14261B);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--muted); font-size:12px; font-family:var(--mono);
+  }
+  .project-name{padding:12px 14px; font-size:13px; font-weight:600; text-align:center;}
+  .skills-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:18px;
+  }
+
+.project-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+  @media (min-width:700px){.skills-grid{grid-template-columns:repeat(4, 1fr);}}
+  .skill-card{
+    aspect-ratio:1/1; border-radius:12px; border:1px solid var(--line);
+    background:var(--surface);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    transition:all .25s ease;
+  }
+  .skill-card:hover{border-color:var(--accent); box-shadow:0 0 22px rgba(0,245,160,0.25); transform:translateY(-4px);}
+  .skill-badge{
+    width:44px; height:44px; border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:14px; color:#04140D;
+  }
+  .skill-name{font-size:12.5px; color:var(--muted); font-weight:600;}
+  .contact-grid{
+    display:grid; grid-template-columns:1fr; gap:20px;
+  }
+  @media (min-width:760px){.contact-grid{grid-template-columns:1fr 1fr;}}
+  .field{
+    width:100%; padding:15px 18px; margin-bottom:18px;
+    background:transparent; border:1px solid var(--accent-dim); border-radius:8px;
+    color:var(--text); font-family:var(--display); font-size:13.5px;
+  }
+  .field::placeholder{color:var(--muted);}
+  textarea.field{min-height:180px; resize:vertical;}
+  .contact-form button{width:100%;}
+  footer{
+    border-top:1px solid var(--line);
+    padding:50px 0 40px;
+    text-align:center;
+  }
+  .footer-social{display:flex; justify-content:center; gap:14px; margin-bottom:24px;}
+  .footer-links{
+    display:flex; justify-content:center; gap:26px; flex-wrap:wrap;
+    font-size:13px; color:var(--muted); margin-bottom:22px;
+  }
+  .footer-links a:hover{color:var(--accent);}
+  .footer-copy{font-size:12px; color:var(--muted);}
+
+/* Vine Track Styling */
+#vine-track{
+  position:fixed;
+  left:0; top:0;
+  height:100vh;
+  width:120px;
+  z-index:2;
+  pointer-events:none;
+  display:none;
+}
+@media (min-width:960px){ #vine-track{display:block;} }
+#vine-track svg{width:100%;height:100%;}
+
+.vine-path{
+  fill:none;
+  stroke:var(--accent);
+  stroke-width:1.4;
+  stroke-linecap:round;
+  filter:drop-shadow(0 0 6px rgba(0,245,160,0.45));
+}
+
+.vine-node{
+  fill:var(--bg);
+  stroke:var(--accent);
+  stroke-width:1.6;
+  transition:fill .3s ease;
+}
+
+.vine-node.lit{fill:var(--accent);}
+
+/* Custom Cursor */
+body{
+  cursor:none;
+}
+
+body{
+    cursor:auto;
+}
+
+#birdCursor{
+    position:fixed;
+    left:0;
+    top:0;
+    font-size:38px;
+    pointer-events:none;
+    z-index:999999;
+
+    transform:translate(-50%,-50%);
+
+    filter:
+        drop-shadow(0 0 8px #00F5A0)
+        drop-shadow(0 0 20px rgba(0,245,160,.5));
+
+    animation:fly .45s infinite alternate;
+}
+
+@keyframes fly{
+
+    0%{
+        transform:translate(-50%,-50%) rotate(-8deg) scale(1);
+    }
+
+    100%{
+        transform:translate(-50%,-50%) rotate(8deg) scale(1.08);
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+    <!-- Vine Track SVG -->
+<div id="vine-track" aria-hidden="true">
+  <svg viewBox="0 0 120 800" preserveAspectRatio="none">
+    <path class="vine-path" id="vine-path"
+      d="M60,0 C60,90 30,110 30,180 C30,250 90,270 90,340 C90,410 30,430 30,500 C30,570 90,590 90,660 C90,730 60,750 60,800" />
+    <g id="vine-nodes"></g>
+  </svg>
+</div>
+
+<header>
+  <nav>
+    <div class="logo">Miss. <span>Navodya</span></div>
+    <div class="nav-links">
+      <a href="#home" class="active">Home</a>
+      <a href="#education">Education</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="burger" aria-hidden="true"><span></span><span></span><span></span></div>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" id="home">
+    <div>
+      <div class="hero-eyebrow">Welcome to my portfolio</div>
+      <h1 class="hero-title">Hi, I'm <span>Navodya Weerasinghe</span></h1>
+      <div class="hero-role">I'm a <span id="roleText">Graphic Designer</span><span class="cursor"></span></div>
+      <p class="hero-desc">I specialize in crafting modern visual experiences through creative design, branding, and digital content solutions. Explore my work below — from social media creatives to complete brand identity designs built to inspire and engage audiences.
+</p>
+
+      <div class="hero-social">
+        <a class="social-btn" href="https://www.linkedin.com/in/navodya-weerasinghe-41b453343?utm_source=share_via&utm_content=profile&utm_medium=member_android" aria-label="LinkedIn">in</a>
+        <a class="social-btn" href="#" aria-label="GitHub">gh</a>
+        <a class="social-btn" href="https://www.behance.net/achininavodya" aria-label="Behance">Be</a>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Hire Me</a>
+        <a href="#contact" class="btn btn-ghost">Contact</a>
+        <a href="#contact" class="btn btn-ghost">Download CV</a>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap">
+  <div class="hero-photo">
+    <img src="myimage.png" alt="Navodya Weerasinghe">
+  </div>
+</div>
+  </section>
+
+  <section id="education">
+    <h2 class="section-title">Educ<span>ation</span></h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2018</div>
+        <div class="tl-title">Primary Education</div>
+        <div class="tl-desc">K/Siddhartha College, Kandy<br>G.C.E. (Ordinary Level) Examination<br>1A pass, 3B passes, and 5C passes (Including Mathematics and English)</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2022/23</div>
+        <div class="tl-title">Secondary Education</div>
+        <div class="tl-desc">K/Siddhartha College, Kandy<br>G.C.E. (Advanced Level) Examination<br>Commerce Stream - 3A Passes (Accounting, Business Studies, Economics)</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 — Present</div>
+        <div class="tl-title">Higher Education</div>
+        <div class="tl-desc">Rajarata University of Sri Lanka<br>BSc (Hons) in Marketing Management (Reading)</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2026 — Present</div>
+        <div class="tl-title">Professional Qualification</div>
+        <div class="tl-desc">Sri Lanka Institute of Marketing (SLIM)<br>Diploma in Strategic Brand Management (Ongoing) </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">2022</div>
+        <div class="tl-title">Professional Qualification</div>
+        <div class="tl-desc">University of Moratuwa<br>Certificate in Python for Beginners</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="services">
+    <h2 class="section-title">Serv<span>ices</span></h2>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">&lt;/&gt;</div>
+        <div class="service-title">Graphic Design</div>
+        <div class="service-desc">I provide creative graphic design services, creating visually appealing designs for brands, businesses, and digital platforms. Specializing in branding, social media creatives, and marketing materials, I deliver unique visual solutions that communicate ideas effectively.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">◇</div>
+        <div class="service-title">Brand Identity Design</div>
+        <div class="service-desc">I create strong brand identities by developing logos, color systems, typography, and visual guidelines. I help businesses build a consistent and memorable brand presence through strategic design solutions.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">◇</div>
+        <div class="service-title">Web Design & Development</div>
+        <div class="service-desc">I create modern, responsive websites with attractive designs and user-friendly experiences. From landing pages to business websites, I develop digital solutions that help brands establish a strong online presence.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">◇</div>
+        <div class="service-title">Social Media Content Creation</div>
+        <div class="service-desc">I design engaging social media content, promotional graphics, and campaign visuals that help brands connect with their audiences. Combining creativity with marketing knowledge, I deliver content designed to increase engagement and online visibility.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title">My <span>Projects</span></h2>
+    <div class="projects-grid">
+      <!-- Project 01 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="WhatsApp Image 2026-03-04 at 5.17.55 PM.jpeg" alt="Social Media Poster">
+      </div>
+      <div class="project-name">Social Media Poster</div>
+    </div>
+
+    <!-- Project 01 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="post04.png" alt="Social Media Poster">
+      </div>
+      <div class="project-name">Social Media Poster</div>
+    </div>
+
+    <!-- Project 01 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="5.20 shamali.png" alt="Social Media Poster">
+      </div>
+      <div class="project-name">Social Media Poster</div>
+    </div>
+
+    <!-- Project 01 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="cake02.png" alt="Social Media Poster">
+      </div>
+      <div class="project-name">Social Media Poster</div>
+    </div>
+
+      <!-- Project 02 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="post06.png" alt="Logo Designr">
+      </div>
+      <div class="project-name">Logo Design</div>
+    </div>
+
+    <!-- Project 02 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="RISHINI.png" alt="Logo Designr">
+      </div>
+      <div class="project-name">Logo Design</div>
+    </div>
+    
+      <!-- Project 03 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="businesscards.png" alt="Business Card Design">
+      </div>
+      <div class="project-name">Business Card Design</div>
+    </div>
+      <!-- Project 04 -->
+    <div class="project-card">
+      <div class="project-thumb">
+        <img src="post05.jpeg" alt="Product Packaging Design">
+      </div>
+      <div class="project-name">Product Packaging Design</div>
+    </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <h2 class="section-title">My <span>Skills</span></h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-badge" style="background:#E44D26;">H5</div>
+        <div class="skill-name">HTML</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-badge" style="background:#264DE4;">C3</div>
+        <div class="skill-name">CSS</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-badge" style="background:#F0DB4F; color:#222;">JS</div>
+        <div class="skill-name">JavaScript</div>
+      </div>
+      <div class="skill-card">
+  <img src="icons8-photoshop-48.png" alt="Photoshop">
+  <div class="skill-name">Adobe Photoshop</div>
+</div>
+      <div class="skill-card">
+  <img src="icons8-adobe-illustrator-24.png" alt="Illustrator">
+  <div class="skill-name">Adobe Illustrator</div>
+</div>
+      <div class="skill-card">
+  <img src="icons8-canva-48.png" alt="Canva">
+  <div class="skill-name">Canva Design</div>
+</div>
+      <div class="skill-card">
+  <img src="icons8-adobe-premiere-pro-24.png" alt="Canva">
+  <div class="skill-name">Adobe Premiere Pro</div>
+</div>
+      <div class="skill-card">
+  <img src="caocutt.jpg" alt="Canva">
+  <div class="skill-name">CapCut</div>
+</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Contact <span>Me</span></h2>
+    <form class="contact-grid" onsubmit="return false;">
+      <div>
+        <input class="field" type="text" placeholder="Full Name">
+        <input class="field" type="email" placeholder="Enter Your Email">
+        <input class="field" type="tel" placeholder="Phone Number">
+        <input class="field" type="text" placeholder="Subject">
+      </div>
+      <div class="contact-form">
+        <textarea class="field" placeholder="Your Message"></textarea>
+        <button href=":https://wa.me/94766638084" class="btn btn-primary" type="submit">Send Message</button>
+      </div>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footer-social">
+  <a class="social-btn" href="https://wa.me/94766638084" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+  <a class="social-btn" href="https://www.facebook.com/share/18dvmQkvzk/" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+  <a class="social-btn" href="https://instagram.com/yourusername" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+  <a class="social-btn" href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+</div>
+    <div class="footer-links">
+      <a href="#services">FAQ</a>
+      <a href="#services">Services</a>
+      <a href="#home">About Me</a>
+      <a href="#contact">Contact</a>
+      <a href="#skills">Skills</a>
+    </div>
+    <div class="footer-copy">© 2026 Navodya | All Rights Reserved</div>
+  </footer>
+
+<div id="birdCursor">
+    🕊️
+    
+</div>
+  
+</main>
+
+<script>
+  const roles = ["Graphic Designer", "Visual Content Creator", "Graphic Designer", "Visual Content Creator"];
+  const roleEl = document.getElementById('roleText');
+  let ri = 0, ci = 0, deleting = false;
+
+  function typeLoop(){
+    const current = roles[ri];
+    if(!deleting){
+      ci++;
+      roleEl.textContent = current.slice(0, ci);
+      if(ci === current.length){ deleting = true; setTimeout(typeLoop, 1400); return; }
+    } else {
+      ci--;
+      roleEl.textContent = current.slice(0, ci);
+      if(ci === 0){ deleting = false; ri = (ri + 1) % roles.length; }
+    }
+    setTimeout(typeLoop, deleting ? 45 : 90);
+  }
+  typeLoop();
+
+  const sections = document.querySelectorAll('main section, .hero');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = 'home';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if(rect.top <= 120 && rect.bottom > 120) current = sec.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  }, {passive:true});
+
+/* Vine Track Scroll Logic */
+const sectionIds = ['home','education','services','projects','skills','contact'];
+const nodeYs = [20, 180, 340, 500, 660, 780];
+
+const nodesGroup = document.getElementById('vine-nodes');
+nodeYs.forEach((y, i) => {
+  const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+  c.setAttribute('cx', i % 2 === 0 ? 60 : 90);
+  c.setAttribute('cy', y);
+  c.setAttribute('r', 5);
+  c.setAttribute('class','vine-node');
+  c.setAttribute('data-index', i);
+  nodesGroup.appendChild(c);
+});
+
+const path = document.getElementById('vine-path');
+const len = path.getTotalLength();
+path.style.strokeDasharray = len;
+path.style.strokeDashoffset = len;
+
+function onVineScroll(){
+  const scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  const clamped = Math.min(Math.max(scrollPct, 0), 1);
+  path.style.strokeDashoffset = len - (len * clamped);
+
+  sectionIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const rect = el.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.2;
+    const node = nodesGroup.querySelector('[data-index="'+i+'"]');
+    if(node){
+      if(inView){ node.classList.add('lit'); } else { node.classList.remove('lit'); }
+    }
+  });
+}
+
+window.addEventListener('scroll', onVineScroll, {passive:true});
+window.addEventListener('resize', onVineScroll);
+onVineScroll();
+
+const bird = document.getElementById("birdCursor");
+
+let mouseX = 0;
+let mouseY = 0;
+
+let x = 0;
+let y = 0;
+
+window.addEventListener("mousemove",(e)=>{
+
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+});
+
+function animateBird(){
+
+    // bird follows behind mouse arrow
+    x += (mouseX - 50 - x) * 0.12;
+    y += (mouseY - 35 - y) * 0.12;
+
+
+    bird.style.left = x + "px";
+    bird.style.top = y + "px";
+
+
+    requestAnimationFrame(animateBird);
+
+}
+
+animateBird();
+
+
+
+document.querySelectorAll("a,button,.project-card,.service-card,.skill-card").forEach(item=>{
+
+    item.addEventListener("mouseenter",()=>{
+
+        bird.style.fontSize="52px";
+
+    });
+
+    item.addEventListener("mouseleave",()=>{
+
+        bird.style.fontSize="38px";
+
+    });
+
+});
+</script>
+
+</body>
+</html>
